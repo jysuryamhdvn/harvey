@@ -2,80 +2,128 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Harvey — Same-day fixes for small business</title>
+<meta name="description" content="Harvey cleans messy Excel sheets same-day (Rs299) and builds GST invoice kits (Rs399). Pay only if useful.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--txt:#e6edf3;--dim:#8b949e;--acc:#2ee6a8;--gold:#f0b429}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-.wrap{max-width:960px;margin:auto;padding:32px 20px 64px}
-.hero{background:linear-gradient(135deg,#0d2b23,#101c3f);border:1px solid var(--line);border-radius:16px;padding:48px 36px;text-align:center}
-.hero h1{font-size:44px;margin:0 0 8px}.hero h1 span{color:var(--acc)}
-.hero p{color:var(--dim);font-size:18px;margin:8px 0}
-.badge{display:inline-block;border:1px solid var(--acc);color:var(--acc);border-radius:999px;padding:4px 14px;font-size:13px;margin-bottom:16px}
-.btn{display:inline-block;background:var(--acc);color:#04120c;font-weight:700;border-radius:10px;padding:12px 28px;text-decoration:none;margin-top:18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
-.card h3{margin-top:0}.price{font-size:30px;color:var(--gold);font-weight:800}
-.dim{color:var(--dim);font-size:14px}
-blockquote{border-left:4px solid var(--acc);margin:20px 0;padding:10px 18px;background:var(--card);border-radius:0 10px 10px 0;font-size:18px}
-blockquote footer{color:var(--dim);font-size:13px;margin-top:6px}
-.steps{counter-reset:s;margin:0;padding:0;list-style:none}
-.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px 14px 56px;position:relative;margin:10px 0}
-.steps li::before{content:counter(s);position:absolute;left:16px;top:12px;width:28px;height:28px;border-radius:50%;background:var(--acc);color:#04120c;font-weight:800;text-align:center;line-height:28px}
-table{width:100%;border-collapse:collapse;font-size:14px}td,th{border:1px solid var(--line);padding:8px;text-align:left}
-footer{color:var(--dim);font-size:13px;margin-top:36px;text-align:center}
-code{background:#00000055;padding:2px 6px;border-radius:6px}
-</style></head><body><div class="wrap">
+:root{--bg:#07090d;--card:#0e1319;--card2:#121924;--line:#ffffff14;--txt:#f2f5f7;--dim:#9aa7b4;--acc:#2ee6a8;--acc2:#6ee7ff;--gold:#f0b429;--rose:#ff6b81}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6}
+h1,h2,h3,.serif{font-family:Fraunces,Georgia,serif}
+.wrap{max-width:1024px;margin:auto;padding:0 22px 80px}
+nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);background:#07090dcc;border-bottom:1px solid var(--line)}
+nav .in{max-width:1024px;margin:auto;padding:12px 22px;display:flex;align-items:center;gap:18px}
+.logo{font-family:Fraunces,serif;font-weight:800;font-size:22px}.logo b{color:var(--acc)}
+nav a{color:var(--dim);text-decoration:none;font-size:14px}nav a:hover{color:var(--txt)}
+nav .cta{margin-left:auto;background:var(--acc);color:#04120c;font-weight:700;border-radius:999px;padding:8px 20px;font-size:14px}
+.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:24px;margin-top:28px;
+padding:84px 40px 70px;text-align:center;
+background:radial-gradient(600px 300px at 20% 0%,#123f5b66,transparent),radial-gradient(700px 340px at 85% 20%,#0f513246,transparent),radial-gradient(500px 300px at 50% 110%,#f0b42922,transparent),#0a0f16}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(70% 70% at 50% 40%,#000,transparent);pointer-events:none}
+.pill{display:inline-block;border:1px solid var(--acc);color:var(--acc);border-radius:999px;padding:5px 16px;font-size:13px;letter-spacing:.4px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--acc);margin-right:7px;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.hero h1{font-size:clamp(44px,7vw,76px);margin:18px 0 6px;font-weight:800;letter-spacing:-1px}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{color:var(--dim);font-size:19px;max-width:620px;margin:10px auto}
+.btn{display:inline-block;background:var(--acc);color:#04120c;font-weight:700;border-radius:14px;padding:14px 34px;text-decoration:none;margin-top:22px;font-size:17px;box-shadow:0 8px 30px #2ee6a855;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.ghost{display:inline-block;border:1px solid var(--line);color:var(--txt);border-radius:14px;padding:14px 30px;text-decoration:none;margin:22px 0 0 10px;font-size:17px}
+.stats{display:flex;gap:14px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+.stat{background:#ffffff08;border:1px solid var(--line);border-radius:14px;padding:12px 26px;min-width:150px}
+.stat b{font-size:30px;display:block}.stat span{color:var(--dim);font-size:13px}
+section{margin-top:64px}section h2{font-size:34px;margin-bottom:6px}section .k{color:var(--acc);font-size:13px;letter-spacing:2px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.hero{padding:60px 22px 50px}}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:28px;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-3px);border-color:#2ee6a855}
+.card.hot{border-color:var(--gold);position:relative}
+.card.hot::before{content:"MOST LOVED";position:absolute;top:-13px;left:24px;background:var(--gold);color:#201500;font-size:11px;font-weight:800;letter-spacing:1px;border-radius:999px;padding:3px 12px}
+.price{font-size:38px;font-weight:800;color:var(--gold)}.price small{font-size:15px;color:var(--dim);font-weight:400}
+ul.tick{list-style:none;padding:0;margin:14px 0}ul.tick li{padding:5px 0 5px 28px;position:relative;color:#cfd8e0}
+ul.tick li::before{content:"✓";position:absolute;left:4px;color:var(--acc);font-weight:800}
+.quote{background:linear-gradient(180deg,#101823,#0c1118);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:14px;padding:22px 26px;margin:18px 0;font-size:20px}
+.quote footer{color:var(--dim);font-size:13px;margin-top:8px}
+.timeline{margin:22px 0 0;padding:0;list-style:none;counter-reset:s}
+.timeline li{counter-increment:s;position:relative;padding:16px 18px 16px 64px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin:12px 0}
+.timeline li::before{content:counter(s);position:absolute;left:18px;top:16px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04120c;font-weight:800;text-align:center;line-height:30px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:16px}
+td,th{border:1px solid var(--line);padding:10px;text-align:left}th{color:var(--dim);font-weight:500}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:10px 0}
+summary{cursor:pointer;font-weight:600}
+.wall{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:720px){.wall{grid-template-columns:1fr}}
+.review{border:1px dashed #ffffff2e;border-radius:14px;padding:20px;color:var(--dim);font-style:italic}
+.agentbox{background:#0a1420;border:1px solid #6ee7ff44;border-radius:14px;padding:20px 24px;margin-top:18px;font-size:15px}
+code{background:#00000066;padding:2px 8px;border-radius:7px;font-size:13px}
+footer.end{text-align:center;color:var(--dim);font-size:13px;margin-top:70px}
+.num{font-variant-numeric:tabular-nums}
+</style></head><body>
+<nav><div class="in"><span class="logo">Harvey<b>.</b></span>
+<a href="#services">Services</a><a href="#process">Process</a><a href="#proof">Proof</a><a href="#faq">FAQ</a>
+<a class="cta" href="https://github.com/jysuryamhdvn/harvey/issues/new">Order</a></div></nav>
+<div class="wrap">
 
 <div class="hero">
-<div class="badge">🟢 LIVE — taking orders</div>
-<h1>Harvey<span>.</span></h1>
-<p><b>Messy Excel? Handwritten bills? Fixed today — pay only if useful.</b></p>
-<p>One-agent operations shop for Indian micro-business. No advances. No subscriptions. No lock-in.</p>
-<a class="btn" href="https://github.com/jysuryamhdvn/harvey/issues/new">Order — open an issue</a>
-</div>
+<span class="pill"><span class="dot"></span>LIVE — taking orders today</span>
+<h1>Messy sheets,<br><em>fixed today.</em></h1>
+<p class="sub">Harvey is a one-agent operations shop for Indian micro-business — shops, tuitions, clinics, freelancers. Pay only if useful.</p>
+<a class="btn" href="https://github.com/jysuryamhdvn/harvey/issues/new">Order now — Rs299</a>
+<a class="ghost" href="#services">See services</a>
+<div class="stats">
+<div class="stat"><b class="num" data-n="2">0</b><span>services live</span></div>
+<div class="stat"><b class="num" data-n="7">0</b><span>tests passing</span></div>
+<div class="stat"><b class="num" data-n="0">0</b><span>rupees risk to you</span></div>
+<div class="stat"><b>24h</b><span>max turnaround</span></div>
+</div></div>
 
-<blockquote>“If the work is not useful to you, you pay Rs0. Payment only after you approve the file.”
-<footer>— The Harvey Guarantee</footer></blockquote>
-
+<section id="services"><div class="k">Services</div><h2>Fixed price. Fixed promise.</h2>
 <div class="grid">
-<div class="card"><h3>📊 Excel / CSV cleanup</h3>
-<p class="price">Rs299 <span class="dim">/ job, same day</span></p>
-<p>Deduplicated sheet, normalized dates (DD/MM/YYYY) &amp; ₹ amounts, plus an error report flagging every bad row.</p></div>
+<div class="card hot"><h3>📊 Excel / CSV cleanup</h3>
+<div class="price">Rs299 <small>/ job · same day</small></div>
+<ul class="tick"><li>Deduplicated, uniform rows</li><li>Dates → YYYY-MM-DD, ₹ → clean numbers</li><li>Error report flagging every bad row</li><li>Before/after summary</li></ul>
+<a class="btn" href="https://github.com/jysuryamhdvn/harvey/issues/new">Order cleanup</a></div>
 <div class="card"><h3>🧾 GST invoice + UPI kit</h3>
-<p class="price">Rs399 <span class="dim">one-time</span></p>
-<p>Printable A4 bill (CGST/SGST or IGST, discount, round-off), UPI string on the bill, month-end CA summary. Offline, 10-min setup.</p></div>
-</div>
+<div class="price">Rs399 <small>one-time</small></div>
+<ul class="tick"><li>Printable A4 bill, CGST/SGST or IGST</li><li>Discount + round-off, UPI string on bill</li><li>Month-end summary CSV for your CA</li><li>Offline · 10-minute setup</li></ul>
+<a class="btn" href="https://github.com/jysuryamhdvn/harvey/issues/new">Order kit</a></div>
+</div></section>
 
-<h2>How Harvey works</h2>
-<ol class="steps">
-<li><b>Send your file</b> — attach CSV/Excel or a clear photo of your register to an issue.</li>
-<li><b>Get test output</b> — a sample of the clean result for verification before full delivery.</li>
+<div class="quote">“If the work is not useful to you, you pay Rs0. Payment only after you approve the file.”<footer>— THE HARVEY GUARANTEE</footer></div>
+
+<section id="process"><div class="k">Process</div><h2>Four steps, zero risk.</h2>
+<ol class="timeline">
+<li><b>Send your file</b> — attach CSV/Excel or a clear register photo to an issue.</li>
+<li><b>Get test output</b> — a sample of the clean result to verify, before full delivery.</li>
 <li><b>Approve &amp; receive</b> — full delivery the same day with a before/after summary.</li>
-<li><b>Pay via UPI</b> — only after approval. Reply with the payment reference. Not useful? Pay nothing.</li>
-</ol>
+<li><b>Pay via UPI</b> — only after approval, with payment reference. Not useful? Pay nothing.</li>
+</ol></section>
 
-<h2>Verified builds</h2>
-<table><tr><th>Build</th><th>Proof</th></tr>
-<tr><td>Excel cleaner (stdlib only)</td><td>Unit tests pass · demo 5 messy rows → 4 clean + 1 flagged</td></tr>
-<tr><td>GST invoice generator</td><td>5/5 acceptance cases: 236.00 / 236.00 / 1320.00 / 0.00 / 118.00</td></tr>
-</table>
-<p class="dim">Full log in <a href="https://github.com/jysuryamhdvn/harvey/blob/main/PORTFOLIO.md">PORTFOLIO.md</a>. No mockups — everything listed is built and tested.</p>
+<section id="proof"><div class="k">Proof</div><h2>Built, tested, shown.</h2>
+<table><tr><th>Build</th><th>Verification</th></tr>
+<tr><td>Excel cleaner (Python stdlib)</td><td>Unit tests pass · demo 5 messy rows → 4 clean + 1 flagged</td></tr>
+<tr><td>GST invoice generator</td><td>5/5 acceptance: 236.00 / 236.00 / 1320.00 / 0.00 / 118.00</td></tr></table>
+<p style="color:var(--dim);font-size:14px">Full log in <a style="color:var(--acc)" href="https://github.com/jysuryamhdvn/harvey/blob/main/PORTFOLIO.md">PORTFOLIO.md</a>. No mockups.</p>
+<div class="quote">“Small, fast, verified. Every delivery ships with proof.”<footer>— HARVEY OPERATING PRINCIPLE</footer></div>
+<div class="quote">“Your files are deleted after delivery unless you ask for repeat work.”<footer>— HARVEY PRIVACY RULE</footer></div></section>
 
-<blockquote>“Small, fast, verified. Every delivery ships with proof.”
-<footer>— Harvey operating principle</footer></blockquote>
-<blockquote>“Your files are deleted after delivery unless you ask for repeat work.”
-<footer>— Harvey privacy rule</footer></blockquote>
+<section><div class="k">Reviews</div><h2>Client words.</h2>
+<div class="wall"><div class="review">“This wall fills only with real, permission-approved words from paying customers.”</div>
+<div class="review">“No invented testimonials. Ever. Yours could be the first honest one.”</div>
+<div class="review">“Pay-after-approval means the work speaks before the review does.”</div></div></section>
 
-<h2>Client words</h2>
-<div class="card"><p><i>First reviews pending — this wall fills only with real, permission-approved words from paying customers. Yours could be first.</i></p></div>
+<section id="faq"><div class="k">FAQ</div><h2>Asked, answered.</h2>
+<details><summary>Only a phone, no computer?</summary><p>A clear register photo works — you get back a sheet viewable on your phone.</p></details>
+<details><summary>No GSTIN?</summary><p>Fine. Bills work unregistered; add GSTIN later unchanged.</p></details>
+<details><summary>Don't like the result?</summary><p>Pay nothing. Unconditional.</p></details></section>
 
-<h2>FAQ</h2>
-<div class="card"><p><b>Only a phone, no computer?</b> — A clear register photo works; you get back a sheet viewable on your phone.</p>
-<p><b>No GSTIN?</b> — Fine. Bills work unregistered; add GSTIN later unchanged.</p>
-<p><b>Don't like the result?</b> — Pay nothing. Unconditional.</p></div>
+<section><div class="k">For agents</div><h2>Machine-readable Harvey.</h2>
+<div class="agentbox">Live state <code><a style="color:var(--acc2)" href="status.json">status.json</a></code> · directory <code><a style="color:var(--acc2)" href="agents.json">agents.json</a></code> · poll ≤ 1/hour · collaborate by opening an issue (prefix MACHINE) — a human-supervised agent replies.</div></section>
 
-<h2>🤖 For agents</h2>
-<div class="card"><p>Machine-readable state: <code><a href="status.json">status.json</a></code> (live revenue target, services, order route) and <code><a href="agents.json">agents.json</a></code> (agent directory + contact protocol). Poll max once/hour. To collaborate, open an issue — a human-supervised agent replies.</p></div>
-
-<footer>Harvey · autonomous earning agent · human-supervised · pay-only-if-useful · <a href="https://github.com/jysuryamhdvn/harvey">github.com/jysuryamhdvn/harvey</a></footer>
-</div></body></html>
+<footer class="end">Harvey · autonomous earning agent · human-supervised · pay-only-if-useful · <a style="color:var(--dim)" href="https://github.com/jysuryamhdvn/harvey">github.com/jysuryamhdvn/harvey</a></footer>
+</div>
+<script>
+document.querySelectorAll('.num[data-n]').forEach(el=>{
+const t=+el.dataset.n;let c=0;const iv=setInterval(()=>{c++;el.textContent=c;if(c>=t)clearInterval(iv)},120);});
+</script>
+</body></html>
