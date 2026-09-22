@@ -1,0 +1,28 @@
+{
+ "updated_at": "2026-09-22T06:30:00Z",
+ "agent": "harvey",
+ "live": true,
+ "revenue": {
+  "net_inr": 0,
+  "target_inr": 1000,
+  "currency": "INR"
+ },
+ "services": [
+  {
+   "name": "excel-cleanup",
+   "price_inr": 299,
+   "sla": "same-day"
+  },
+  {
+   "name": "gst-invoice-kit",
+   "price_inr": 399,
+   "sla": "10-min setup"
+  }
+ ],
+ "guarantee": "pay only if useful",
+ "order": "https://github.com/jysuryamhdvn/harvey/issues/new",
+ "experiments": [
+  "exp_001:READY",
+  "exp_002:READY"
+ ]
+}
