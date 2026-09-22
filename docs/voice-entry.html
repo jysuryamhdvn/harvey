@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harvey Voice Entry — warehouse bulk input by voice</title>
+<meta name="description" content="Speak product quantities, get JSON + CSV. Free demo.">
+<style>body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:auto;padding:24px;background:#07090d;color:#f2f5f7}
+.card{background:#0e1319;border:1px solid #ffffff22;border-radius:14px;padding:20px;margin:14px 0}
+button{background:#2ee6a8;color:#04120c;font-weight:800;border:0;border-radius:10px;padding:12px 24px;font-size:16px;cursor:pointer;margin:4px}
+button.stop{background:#ff6b81}button.ghost{background:transparent;color:#2ee6a8;border:1px solid #2ee6a8}
+select,input,textarea{padding:10px;margin:6px 4px;border-radius:8px;border:1px solid #ffffff33;background:#00000055;color:#fff}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ffffff2a;padding:8px;text-align:left}
+.live{border:2px solid #2ee6a8}.dim{color:#9aa7b4;font-size:14px}a{color:#2ee6a8}
+.pill{display:inline-block;background:#2ee6a833;border:1px solid #2ee6a8;border-radius:999px;padding:3px 12px;font-size:13px}</style></head><body>
+<h1>🎙️ Harvey Voice Entry <span class="pill">LIVE DEMO</span></h1>
+<p class="dim">Warehouse bulk entry by voice. Say <b>"biscuit 10, chips 5"</b> — entries land below. Export <b>JSON + CSV</b> for your ERP. 100% in-browser, nothing uploaded.</p>
+
+<div class="card">
+<b>1. Pattern (fully configurable):</b>
+<select id="pat">
+<option value="IQ">Item + Qty — "biscuit 10"</option>
+<option value="IIQ">Item Item + Qty — "dairy milk 5"</option>
+<option value="CQ">Code + Qty — "BR-101 20"</option>
+</select>
+<label class="dim"><input type="checkbox" id="merge" checked> merge repeat items</label>
+<label class="dim"><input type="checkbox" id="allowNew" checked> accept new items not in catalog</label><br>
+<b>2. Catalog (bulk preload, 1000+ rows OK — one per line: <code>code,name</code> or just <code>name</code>):</b><br>
+<textarea id="cat" rows="4" cols="60">BR-101,Parle Biscuit
+LK-202,Lays Chips
+DM-303,Dairy Milk
+TM-404,Tata Salt
+AT-505,Aashirvaad Atta</textarea><br>
+<button class="ghost" onclick="loadCat()">Load catalog</button>
+<span class="dim" id="catN"></span>
+</div>
+
+<div class="card" id="micCard">
+<b>3. Speak:</b><br>
+<button id="micBtn" onclick="toggleMic()">🎤 Start listening</button>
+<span class="dim">Chrome/Edge + mic permission + HTTPS. No mic? use typed line below.</span><br>
+<input id="typed" placeholder='Type a line, e.g. biscuit 10, chips 5' size="44">
+<button class="ghost" onclick="addTyped()">Add line</button>
+<div class="dim" id="heard">Heard: —</div>
+</div>
+
+<div class="card">
+<b>Entries (<span id="n">0</span>) — total qty <span id="tq">0</span></b>
+<table><tr><th>#</th><th>Code</th><th>Item</th><th>Qty</th><th>Source</th><th></th></tr><tbody id="rows"></tbody></table><br>
+<button onclick="dl('json')">⬇ JSON</button>
+<button onclick="dl('csv')">⬇ CSV</button>
+<button class="ghost" onclick="demo()">▶ Fill demo lines</button>
+<button class="ghost" onclick="clearAll()">Clear</button>
+</div>
+
+<div class="card">
+<b>For warehouse &amp; supply-chain managers:</b> pilot this on YOUR catalog this week —
+same-day setup, ERP-ready JSON/CSV, Rs999/mo per counter after trial.
+<a href="mailto:jysuryamhdvn@gmail.com?subject=Voice%20entry%20pilot">Book pilot →</a>
+</div>
+<p class="dim"><a href="https://jysuryamhdvn.github.io/harvey/">← Harvey home</a></p>
+
+<script>
+let CAT=[], ENTRIES=[], listening=false, rec=null;
+const NUMW={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,dozen:12};
+function loadCat(){
+  CAT=[];
+  document.getElementById('cat').value.split('\n').forEach(l=>{
+    l=l.trim(); if(!l)return;
+    const p=l.split(',');
+    if(p.length>1)CAT.push({code:p[0].trim(),name:p.slice(1).join(',').trim()});
+    else CAT.push({code:'',name:l});
+  });
+  document.getElementById('catN').textContent=CAT.length+' items loaded';
+}
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();}
+function qtyOf(tok){
+  if(/^\d+$/.test(tok))return +tok;
+  return NUMW[tok.toLowerCase()]||null;
+}
+function matchItem(words){
+  const n=norm(words.join(' '));
+  for(const c of CAT){const cn=norm(c.name);
+    if(cn===n||cn.includes(n)||n.includes(cn))return c;}
+  return null;
+}
+function parseLine(line){
+  const pat=document.getElementById('pat').value;
+  const chunks=line.split(/[,;]+| and /i).map(s=>s.trim()).filter(Boolean);
+  let added=0;
+  for(const ch of chunks){
+    const toks=ch.split(/\s+/); if(!toks.length)continue;
+    const q=qtyOf(toks[toks.length-1]);
+    if(q===null)continue;
+    let itemWords=toks.slice(0,-1);
+    if(pat==='CQ'){
+      const code=itemWords.join(' ').toUpperCase();
+      const hit=CAT.find(c=>c.code.toUpperCase()===code);
+      addRow(hit?hit.code:code, hit?hit.name:itemWords.join(' '), q, 'voice'); added++; continue;
+    }
+    if(pat==='IIQ'&&itemWords.length<2)continue;
+    if(pat==='IQ'&&!itemWords.length)continue;
+    const hit=matchItem(itemWords);
+    const allow=document.getElementById('allowNew').checked;
+    if(hit)addRow(hit.code,hit.name,q,'voice');
+    else if(allow)addRow('',itemWords.join(' '),q,'voice(new)');
+    if(hit||allow)added++;
+  }
+  return added;
+}
+function addRow(code,name,qty,src){
+  const merge=document.getElementById('merge').checked;
+  const k=norm(name);
+  if(merge){const e=ENTRIES.find(e=>norm(e.name)===k);
+    if(e){e.qty+=qty;render();return;}}
+  ENTRIES.push({code:code,name:name,qty:qty,src:src});
+  render();
+}
+function render(){
+  const tb=document.getElementById('rows');tb.innerHTML='';
+  let tq=0;
+  ENTRIES.forEach((e,i)=>{tq+=e.qty;
+    tb.innerHTML+=`<tr><td>${i+1}</td><td>${e.code}</td><td>${e.name}</td><td>${e.qty}</td><td>${e.src}</td><td><button class="ghost" onclick="del(${i})">x</button></td></tr>`;});
+  document.getElementById('n').textContent=ENTRIES.length;
+  document.getElementById('tq').textContent=tq;
+}
+function del(i){ENTRIES.splice(i,1);render();}
+function clearAll(){ENTRIES=[];render();}
+function demo(){['biscuit 10','lays chips 5','dairy milk twelve','BR-101 20','tata salt 7'].forEach(l=>parseLine(l));}
+function addTyped(){const v=document.getElementById('typed').value;if(v){parseLine(v);document.getElementById('typed').value='';}}
+function dl(kind){
+  let blob;
+  if(kind==='json')blob=new Blob([JSON.stringify(ENTRIES.map((e,i)=>({line:i+1,code:e.code,item:e.name,qty:e.qty})),null,2)],{type:'application/json'});
+  else{let s='line,code,item,qty\n';ENTRIES.forEach((e,i)=>{s+=`${i+1},"${e.code}","${e.name.replace(/"/g,'""')}",${e.qty}\n`;});blob=new Blob([s],{type:'text/csv'});}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='voice-entries.'+(kind==='json'?'json':'csv');a.click();
+}
+function toggleMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert('No speech API — use the typed line (works everywhere).');return;}
+  if(listening){rec.stop();return;}
+  rec=new SR();rec.lang='en-IN';rec.continuous=true;rec.interimResults=false;
+  rec.onresult=e=>{
+    const t=e.results[e.results.length-1][0].transcript;
+    document.getElementById('heard').textContent='Heard: '+t;
+    parseLine(t);
+  };
+  rec.onend=()=>{if(listening){try{rec.start();}catch(_){}}};
+  rec.start();listening=true;
+  document.getElementById('micBtn').textContent='⏹ Stop';
+  document.getElementById('micCard').classList.add('live');
+  rec.onstop=rec.onerror=()=>{};
+  const stop=()=>{listening=false;document.getElementById('micBtn').textContent='🎤 Start listening';document.getElementById('micCard').classList.remove('live');};
+  rec.addEventListener('end',()=>{if(!listening)stop();});
+  document.getElementById('micBtn').onclick=()=>{if(listening){listening=false;rec.stop();stop();}else toggleMic();};
+}
+loadCat();
+</script>
+</body></html>
