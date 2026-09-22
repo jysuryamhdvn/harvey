@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free HRA Rent Receipt Generator — Harvey</title>
+<meta name="description" content="Free HRA rent receipts: fill, print, done. Data never leaves your browser. Full FY pack Rs199.">
+<style>body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:720px;margin:auto;padding:24px;background:#07090d;color:#f2f5f7}
+.card{background:#0e1319;border:1px solid #ffffff22;border-radius:14px;padding:22px;margin:14px 0}
+input{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:1px solid #ffffff33;background:#00000055;color:#fff}
+button{background:#2ee6a8;color:#04120c;font-weight:800;border:0;border-radius:10px;padding:12px 26px;font-size:16px;cursor:pointer}
+.receipt{background:#fff;color:#111;border-radius:8px;padding:26px;margin-top:16px}
+.dim{color:#9aa7b4;font-size:14px}a{color:#2ee6a8}</style></head><body>
+<h1>Free HRA Rent Receipt 🏠</h1>
+<p class="dim">Fill → Print → Done. <b>Your data never leaves this page</b> (100% in-browser). Need all 12 months + summary? <a href="https://github.com/jysuryamhdvn/harvey/issues/new">Full FY pack Rs199</a>.</p>
+<div class="card">
+<input id="tenant" placeholder="Tenant name" value="">
+<input id="landlord" placeholder="Landlord name" value="">
+<input id="addr" placeholder="Rented address" value="">
+<input id="rent" placeholder="Monthly rent (Rs)" value="12000">
+<input id="month" placeholder="Month Year (e.g. September 2026)" value="September 2026">
+<button onclick="gen()">Generate receipt</button>
+</div>
+<div class="receipt" id="out" style="display:none"></div>
+<script>
+function gen(){
+const g=id=>document.getElementById(id).value.trim();
+const r=g('rent').replace(/[^0-9]/g,'')||'0';
+document.getElementById('out').style.display='block';
+document.getElementById('out').innerHTML='<h2>RENT RECEIPT — '+esc(g('month'))+'</h2>'
++'<p>Received Rs'+Number(r).toLocaleString('en-IN')+' from <b>'+esc(g('tenant'))+'</b> towards monthly rent for <b>'+esc(g('addr'))+'</b>.</p>'
++'<p>Landlord: <b>'+esc(g('landlord'))+'</b></p><p>Signature: _______________</p>'
++'<button onclick="window.print()">Print / Save PDF</button>';
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+<p class="dim"><a href="https://jysuryamhdvn.github.io/harvey/">← Harvey home</a></p>
+</body></html>
