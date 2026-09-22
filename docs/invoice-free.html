@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free GST Invoice Preview — Harvey</title>
+<meta name="description" content="Free GST invoice preview in browser. No signup. Full billed version Rs399.">
+<style>body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:720px;margin:auto;padding:24px;background:#07090d;color:#f2f5f7}
+.card{background:#0e1319;border:1px solid #ffffff22;border-radius:14px;padding:22px;margin:14px 0}
+input{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:1px solid #ffffff33;background:#00000055;color:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{background:#2ee6a8;color:#04120c;font-weight:800;border:0;border-radius:10px;padding:12px 26px;font-size:16px;cursor:pointer}
+.inv{background:#fff;color:#111;border-radius:8px;padding:26px;margin-top:16px}
+table{width:100%;border-collapse:collapse}td,th{border:1px solid #333;padding:6px;font-size:14px;text-align:left}
+.dim{color:#9aa7b4;font-size:14px}a{color:#2ee6a8}</style></head><body>
+<h1>Free GST Invoice Preview 🧾</h1>
+<p class="dim">Fill → preview → print. <b>Nothing leaves your browser.</b> Want saved invoices + UPI billing + CA summary? <a href="https://github.com/jysuryamhdvn/harvey/issues/new">Full kit Rs399</a>.</p>
+<div class="card">
+<div class="row"><input id="seller" placeholder="Your shop name" value=""><input id="buyer" placeholder="Customer name" value=""></div>
+<div class="row"><input id="item" placeholder="Item" value="Service"><input id="amt" placeholder="Amount (Rs)" value="1000"></div>
+<div class="row"><input id="gst" placeholder="GST % (0/5/12/18/28)" value="18"><input id="upi" placeholder="Your UPI ID" value=""></div>
+<button onclick="gen()">Preview invoice</button>
+</div>
+<div class="inv" id="out" style="display:none"></div>
+<script>
+function gen(){
+const g=id=>document.getElementById(id).value.trim();
+const amt=parseFloat(g('amt').replace(/[^0-9.]/g,''))||0, r=parseFloat(g('gst'))||0;
+const gst=amt*r/100, tot=amt+gst, half=gst/2;
+document.getElementById('out').style.display='block';
+document.getElementById('out').innerHTML='<h2>TAX INVOICE</h2><p><b>'+esc(g('seller'))+'</b> → '+esc(g('buyer'))+'</p>'
++'<table><tr><th>Item</th><th>Amount</th><th>CGST</th><th>SGST</th><th>Total</th></tr><tr><td>'+esc(g('item'))+'</td><td>'+amt.toFixed(2)+'</td><td>'+half.toFixed(2)+'</td><td>'+half.toFixed(2)+'</td><td><b>'+tot.toFixed(2)+'</b></td></tr></table>'
++'<p>Pay via UPI: <b>'+esc(g('upi'))+'</b></p><button onclick="window.print()">Print / Save PDF</button>';
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+<p class="dim"><a href="https://jysuryamhdvn.github.io/harvey/">← Harvey home</a></p>
+</body></html>
